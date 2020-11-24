@@ -16,7 +16,7 @@ import static io.micronaut.http.MediaType.TEXT_PLAIN;
 public class BookController {
 
     @Inject
-    private BookRepository bookRepository;
+    BookRepository bookRepository;
 
     @Post
     @Produces(TEXT_PLAIN)
