@@ -1,0 +1,52 @@
+plugins {
+    id "com.github.johnrengelman.shadow" version "6.1.0"
+    id "io.micronaut.application" version '1.0.5'
+}
+
+version "0.1"
+group "net.andreinc.mn.crud.backend"
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+micronaut {
+    runtime "netty"
+    testRuntime "junit5"
+    processing {
+        incremental true
+        annotations "net.andreinc.mn.crud.backend.*"
+    }
+}
+
+dependencies {
+    implementation("io.micronaut:micronaut-validation")
+    implementation("io.micronaut:micronaut-runtime")
+    implementation("javax.annotation:javax.annotation-api")
+    implementation("io.micronaut:micronaut-http-client")
+    implementation("io.micronaut.data:micronaut-data-jdbc")
+    implementation("io.micronaut.data:micronaut-data-hibernate-jpa")
+    implementation("io.micronaut:micronaut-inject")
+
+    compileOnly("org.graalvm.nativeimage:svm")
+
+    runtimeOnly("ch.qos.logback:logback-classic")
+    runtime("com.h2database:h2")
+    runtime("io.micronaut.sql:micronaut-jdbc-tomcat")
+
+    annotationProcessor("io.micronaut:micronaut-graal")
+    annotationProcessor("io.micronaut.data:micronaut-data-processor")
+    annotationProcessor("io.micronaut:micronaut-inject-java")
+}
+
+mainClassName = "net.andreinc.mn.crud.backend.Application"
+
+java {
+    sourceCompatibility = JavaVersion.toVersion('11')
+    targetCompatibility = JavaVersion.toVersion('11')
+}
+
+
+
+
