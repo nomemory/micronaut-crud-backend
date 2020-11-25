@@ -2,29 +2,32 @@ package net.andreinc.mn.crud.backend.entity;
 
 import io.micronaut.core.annotation.Introspected;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Introspected
 public class Book {
+
     @Id
     @GeneratedValue
     private Long id;
+
+    @Column(nullable = false)
     private String title;
+
+    @Column(nullable = false)
     private int pages;
 
-    public Book(Long id, String title, int pages) {
-        this.id = id;
-        this.title = title;
-        this.pages = pages;
-    }
+    @ManyToMany
+    @JoinTable(
+            name = "books_authors",
+            joinColumns = @JoinColumn(name="book_id"),
+            inverseJoinColumns = @JoinColumn(name="author_id")
+    )
+    private Set<String> authors = new HashSet<>();
 
-    public Book(String title, int pages) {
-        this.title = title;
-        this.pages = pages;
-    }
+    public Book() {}
 
     public Long getId() {
         return id;
@@ -48,5 +51,13 @@ public class Book {
 
     public void setPages(int pages) {
         this.pages = pages;
+    }
+
+    public Set<String> getAuthors() {
+        return authors;
+    }
+
+    public void setAuthors(Set<String> authors) {
+        this.authors = authors;
     }
 }

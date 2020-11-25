@@ -1,6 +1,8 @@
 package net.andreinc.mn.crud.backend.repository;
 import io.micronaut.data.annotation.Repository;
 import io.micronaut.data.repository.CrudRepository;
+import net.andreinc.mn.crud.backend.commands.CreateBookRep;
+import net.andreinc.mn.crud.backend.commands.CreateBookReq;
 import net.andreinc.mn.crud.backend.entity.Book;
 
 
