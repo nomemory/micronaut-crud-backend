@@ -1,6 +1,8 @@
 package net.andreinc.mn.crud.backend.entity;
 
-import io.micronaut.core.annotation.Introspected;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -19,15 +21,28 @@ public class Book {
     @Column(nullable = false)
     private int pages;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "books_authors",
-            joinColumns = @JoinColumn(name="book_id"),
-            inverseJoinColumns = @JoinColumn(name="author_id")
+            joinColumns = @JoinColumn(name="book_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name="author_id", referencedColumnName = "id")
     )
-    private Set<String> authors = new HashSet<>();
+    private Set<Author> authors = new HashSet<>();
 
     public Book() {}
+
+    public Book(String title, int pages, Set<Author> authors) {
+        this.title = title;
+        this.pages = pages;
+        this.authors = authors;
+    }
+
+    public Book(Long id, String title, int pages, Set<Author> authors) {
+        this.id = id;
+        this.title = title;
+        this.pages = pages;
+        this.authors = authors;
+    }
 
     public Long getId() {
         return id;
@@ -53,11 +68,11 @@ public class Book {
         this.pages = pages;
     }
 
-    public Set<String> getAuthors() {
+    public Set<Author> getAuthors() {
         return authors;
     }
 
-    public void setAuthors(Set<String> authors) {
+    public void setAuthors(Set<Author> authors) {
         this.authors = authors;
     }
 }

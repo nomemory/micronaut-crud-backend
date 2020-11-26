@@ -1,5 +1,9 @@
 package net.andreinc.mn.crud.backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,10 +20,23 @@ public class Author {
     @Column(nullable = false)
     private String lastName;
 
-    @ManyToMany(mappedBy = "author")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "authors")
     private Set<Book> books = new HashSet<>();
 
-    private Author() {}
+    public Author() {}
+
+    public Author(Long id, String firstName, String lastName, Set<Book> books) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.books = books;
+    }
+
+    public Author(String firstName, String lastName, Set<Book> books) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.books = books;
+    }
 
     public Long getId() {
         return id;
